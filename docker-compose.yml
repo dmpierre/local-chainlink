@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  postgresql:
+    container_name: postgresql
+    build: ./postgresql/
+    command: -d chainlinknode -c listen_addresses='*' -c ssl=off
+    ports:
+      - "5432:5432"
+  ganache:
+    container_name: ganache
+    build: ./ganache/
+    command: ${INFURA_HTTP_URL}/${PROJECT_ID} ${CHAINLINK_NODE_ADDRESS}
+    ports: 
+      - "8545:8545"
