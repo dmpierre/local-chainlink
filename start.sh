@@ -1,2 +1,2 @@
 #!/bin/sh
-docker-compose --env=./.env up
+docker-compose --env-file=./.env up

@@ -1,17 +1,18 @@
 #!/bin/sh
-# Get ganache and postgres containers IPs on containers network
-DEFAULT_ETH_NETWORK=kovan
-DEFAULT_IP_CONTAINER_GANACHE=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ganache)
-DEFAULT_IP_CONTAINER_POSTGRES=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' postgresql)
-CURRENT_WORKDIR=$(pwd)
+# host name is ganache on containers network
+DEFAULT_IP_GANACHE=ganache # will use containerized ganache, otherwise give host.docker.internal
+IP_GANACHE=${1:-${DEFAULT_IP_GANACHE}}
 
-ETH_NETWORK=${1:-${DEFAULT_ETH_NETWORK}}
-# Instead of IP, could directly use container names as hostnames (ganache and postgres)
-IP_CONTAINER_GANACHE=${2:-${DEFAULT_IP_CONTAINER_GANACHE}}
+DEFAULT_ETH_NETWORK=kovan
+ETH_NETWORK=${2:-${DEFAULT_ETH_NETWORK}}
+
+DEFAULT_IP_CONTAINER_POSTGRES=postgresql
 IP_CONTAINER_POSTGRES=${3:-${DEFAULT_IP_CONTAINER_POSTGRES}}
 
-export ETH_URL=ws://${IP_CONTAINER_GANACHE}:8545
-export ETH_HTTP_URL=http://${IP_CONTAINER_GANACHE}:8545
+CURRENT_WORKDIR=$(pwd)
+
+export ETH_URL=ws://${IP_GANACHE}:8545
+export ETH_HTTP_URL=http://${IP_GANACHE}:8545
 
 # chainlinknode user is configured in Dockerfile of postgresql container
 # if you want to change this in the postgresql, change it both here and in the Dockerfile

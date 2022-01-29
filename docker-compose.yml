@@ -9,6 +9,6 @@ services:
   ganache:
     container_name: ganache
     build: ./ganache/
-    command: ${INFURA_HTTP_URL}/${PROJECT_ID} ${CHAINLINK_NODE_ADDRESS}
+    command: ${INFURA_HTTP_URL}/${PROJECT_ID} ${CHAINLINK_NODE_ADDRESS} ${FORK}
     ports: 
       - "8545:8545"
